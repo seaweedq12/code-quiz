@@ -2,42 +2,26 @@
 
 ## Task
 
-In this weeks 
+In this weeks homework a quiz had to made.in the quiz a time limit is given to user to answer questions, when a question is answered correctly the user is given points and when answer incorrectly the time limit is reduced 
 
 ## URL
 
-https://seaweedq12.github.io/password-generator-2/
+https://seaweedq12.github.io/code-quiz/
 
 ## Work
 
-1. Firstly when the generate button is pressed the user is prompt to a input in which the user is ask to enter the length of the password between 8 and 128 characters.
-![prompt](./assets/images/prompt.png)
+1. when the page is loaded a screen with a start button and view highscore is shown.
+![init](./assets/images/init.png)
+the user can either start the quiz or view the highscore saved in the local file.
+2. when the view highscore is pressed a different **section** is rendered.
+![hscore](./assets/images/hscore.png)
+highscores a updated when the user submits their score. Also the highscore button is disabled throught the quiz and enabled when finished  
 
-If the user cancels or places a incorrect in put the generator will return a Error message
-![error](./assets/images/error.png)
+4. when the user starts the quiz, the user is given few choices which the user can select as answer.
+![quiz](./assets/images/quiz.png)
 
-2. In the first work after the user inputs a correct number four confirms will pop up. But in the remade code four prompt about the types character in which the user will select with a "y" for yes and "n" for no.
-![typeprompt](./assets/images/typeprompt.png)
+5. finally when the quiz is finished or the time runs out a submit form pops up and the user can enter their initials. An empty initial will not be stored
+![submit](./assets/images/submit.png)
 
-But if the user enters  any another input other then "y" or "n" and alert will pop up saying "Error, please answer with a y or n" and prompt the user again. This will repeat until the user inputs a "y" or "n".
- ![error2](./assets/images/error2.png)
 
-4. In this version the user cancel anytime to restart the process. when cancelled a mesaage will pop up
- ![cancel](./assets/images/cancel.png)
-
-5. when the user answers all the prompt a password matching the user in put will be shown
-
-**Example 1** - 8 letters with lowercase and special letters
-![example1](./assets/images/example1.png)
-
-**Example 2** - 47 letters with uppercase, numbers and special letters
-![example2](./assets/images/example2.png)
-I did a console.log on the result.length to length input is correct 
-
-**Example 3** - 85 letters with lowercase and numbers
-![example3](./assets/images/example3.png)
-I did a console.log on the result.length to length input is correct 
-
-**Example 4** - 128 letter with all types
-![example4](./assets/images/example4.png)
-I did a console.log on the result.length to length input is correct 
+ 
