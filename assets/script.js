@@ -1,15 +1,14 @@
 var startButton = document.querySelector(".start");
 var codeQ = document.querySelector("h1");
 var info = document.querySelector("h3");
-var section = document.querySelector("section");
+var section = document.querySelector(".center");
 var button = document.querySelectorAll("button");
 var Hscorelink = document.querySelector("#Hscore");
-var hbutton = document.querySelector(".hbutton");
+var hbutton = document.querySelector(".hbutton");// this was originally a link but changed to a button to disable it
 var cleartargetindex = "";
 
 var isreduce = false;
 var isfinish = false;
-var isadd = false;
 var q1 = "Commonly used data types DO NOT include:"
 var a1 =["1. strings","2. booleans","3. alerts","4. numbers"]
 var q2 = "The condition in an if/else statement is enclosed within:"
@@ -20,7 +19,7 @@ var q4 = "A very useful tool used during development debugging for printing cont
 var a4 =["1. Javascript","2. terminal/bash","3. for loops","4. console.log"]
 
 var displayscore = [];
-
+//bring the string contained in the local file
 function init() {
     var storedtext = JSON.parse(localStorage.getItem("displayscore"));
     if (storedtext !== null) {
@@ -36,7 +35,7 @@ function startquiz() {
     startTimer();
     Question1();   
 }
-
+//the sumbmition page was delayed on purpose
 function startTimer() {
     timer = setInterval(function(){
         timerCount--;
@@ -45,16 +44,16 @@ function startTimer() {
             isreduce = !isreduce   
         }
         if(timerCount < 0){
-        timerCount = 0;
+            timerCount = 0;
         }
         document.getElementById("timer").innerHTML = timerCount;
         if (isfinish && timerCount > 0) {
-          clearInterval(timer);
-          endquiz();
+            clearInterval(timer);
+            endquiz();//the sumbmition page was delayed on purpose 
         }
         if (timerCount === 0) { 
         clearInterval(timer);  
-          endquiz();    
+          endquiz();   
         }
     }, 1000);
 }
@@ -67,7 +66,7 @@ function addscore(){
     Qscore = Qscore + 5;
     return;
 }
-
+//stores the array into local file as string
 function storescore(){
     var displayinput = document.querySelector("#initial-input");
     displaytext = displayinput.value.toUpperCase() +" - " + Qscore;
@@ -78,7 +77,7 @@ function storescore(){
     displayinput.value = "";
     localStorage.setItem("displayscore", JSON.stringify(displayscore)); 
 }
-
+//the list that contains the highscore
 function renderlist(){
     var list = document.querySelector("ol");
     list.innerHTML ="";
@@ -91,13 +90,23 @@ function renderlist(){
         list.appendChild(li);
     }
 }
-
+//clears the highscores
 function scoreclear(){
     var index = cleartarget;
     displayscore.splice(index, 1);
     localStorage.setItem("displayscore", JSON.stringify(displayscore));
     renderlist();
 
+}
+
+function correct(){
+    document.getElementById("alert").innerHTML = "correct"
+    setTimeout(function(){document.getElementById("alert").innerHTML = ""}, 500);
+}
+
+function wrong(){
+    document.getElementById("alert").innerHTML = "wrong"
+    setTimeout(function(){document.getElementById("alert").innerHTML = ""}, 500);
 }
 
 function Question1(){
@@ -133,10 +142,12 @@ function Question1(){
             if(answer.includes(a1[2])){
                 addscore();
                 Question2();
+                correct();
             }
             if(answer.includes(a1[0]) || answer.includes(a1[1]) || answer.includes(a1[3])){
                 reducetime();
-                Question2(); 
+                Question2();
+                wrong() 
             }  
         }
     });
@@ -158,10 +169,12 @@ function Question2(){
             if(answer.includes(a2[2])){
                 addscore();
                 Question3();
+                correct();
             }
             if(answer.includes(a2[0]) || answer.includes(a2[1]) || answer.includes(a2[3])){
                 reducetime();
                 Question3(); 
+                wrong()
             }  
         }
     });
@@ -183,10 +196,12 @@ function Question3(){
             if(answer.includes(a3[3])){
                 addscore();
                 Question4();
+                correct();
             }
             if(answer.includes(a3[0]) || answer.includes(a3[1]) || answer.includes(a3[2])){
                 reducetime();
                 Question4(); 
+                wrong()
             }  
         }
     });
@@ -206,22 +221,25 @@ function Question4(){
         var answer = event.target.textContent
         if(event.target.tagName == "BUTTON"){
             if(answer.includes(a4[3])){
+                correct();
                 addscore();
                 isfinish = true;
             }
             if(answer.includes(a4[0]) || answer.includes(a4[1]) || answer.includes(a4[2])){
+                wrong()
                 reducetime();
                 isfinish = true; 
             }  
         }
     });
 }
-
+//the submition page
 function endquiz(){
     document.querySelector(".b1").remove();
     document.querySelector(".b2").remove();
     document.querySelector(".b3").remove();
     document.querySelector(".b4").remove();
+    document.querySelector("#alert").remove();
     codeQ.textContent = "All done!";
     var showscore = document.createElement('h3');
     showscore.textContent = "Your final score is: " + Qscore;
@@ -245,7 +263,7 @@ function endquiz(){
         storescore();
     });    
 }
-
+//renders highscore page 
 function renderHscore(event){
     event.preventDefault();
     section.remove();
@@ -282,6 +300,7 @@ document.addEventListener("click",function(event){
             scoreclear();
         }
     }
+    //these two codes ensure that only when the score is selected it can be cleared
     if(htarget != "Clear"){
         cleartarget = "";
     }
