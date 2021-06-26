@@ -1,25 +1,25 @@
 var startButton = document.querySelector(".start");
 var codeQ = document.querySelector("h1");
 var info = document.querySelector("h3");
-var section = document.querySelector(".center");
+var section = document.querySelector("section");
 var button = document.querySelectorAll("button");
-var Hscorelink = document.querySelector("#Hscore");
-var hbutton = document.querySelector(".hbutton");// this was originally a link but changed to a button to disable it
+var hbutton = document.querySelector(".hbutton");
 var cleartargetindex = "";
 
 var isreduce = false;
 var isfinish = false;
+var isadd = false;
 var q1 = "Commonly used data types DO NOT include:"
 var a1 =["1. strings","2. booleans","3. alerts","4. numbers"]
 var q2 = "The condition in an if/else statement is enclosed within:"
-var a2 =["1. quotes","2 .curly brackets","3. parentheses","4. square brackets"]
+var a2 =["1. quotes","2. curly brackets","3. parentheses","4. square brackets"]
 var q3 = "Arrays in JavaScript can be used to store:"
-var a3 =["1. numbers and string","2 .other arrays","3. booleans","4. all of the above"]
+var a3 =["1. numbers and string","2. other arrays","3. booleans","4. all of the above"]
 var q4 = "A very useful tool used during development debugging for printing content to the debugger is:"
 var a4 =["1. Javascript","2. terminal/bash","3. for loops","4. console.log"]
-
 var displayscore = [];
-//bring the string contained in the local file
+var cleartarget = "";
+
 function init() {
     var storedtext = JSON.parse(localStorage.getItem("displayscore"));
     if (storedtext !== null) {
@@ -29,14 +29,14 @@ function init() {
 }
 
 function startquiz() {
-    hbutton.disabled = true;
-    timerCount = 40;
+    hbutton.disabled = true;  
+    timerCount = 30;
     Qscore = 0;
-    startTimer();
-    Question1();   
+    startTimer(); 
+    Question1();  
 }
-//the sumbmition page was delayed on purpose
-function startTimer() {
+
+function startTimer(){
     timer = setInterval(function(){
         timerCount--;
         if (isreduce) {
@@ -49,11 +49,11 @@ function startTimer() {
         document.getElementById("timer").innerHTML = timerCount;
         if (isfinish && timerCount > 0) {
             clearInterval(timer);
-            endquiz();//the sumbmition page was delayed on purpose 
+            endquiz();
         }
         if (timerCount === 0) { 
-        clearInterval(timer);  
-          endquiz();   
+            clearInterval(timer);  
+            endquiz();
         }
     }, 1000);
 }
@@ -66,18 +66,18 @@ function addscore(){
     Qscore = Qscore + 5;
     return;
 }
-//stores the array into local file as string
+
 function storescore(){
-    var displayinput = document.querySelector("#initial-input");
+    var displayinput = document.querySelector("#initial-input")
     displaytext = displayinput.value.toUpperCase() +" - " + Qscore;
-    if(displayinput.value == ""){      
-    }else{
-        displayscore.push(displaytext);
-    }
+    displayscore.push(displaytext);
     displayinput.value = "";
-    localStorage.setItem("displayscore", JSON.stringify(displayscore)); 
+    localStorage.setItem("displayscore", JSON.stringify(displayscore));
+    if(!displayinput){
+        return;
+    } 
 }
-//the list that contains the highscore
+
 function renderlist(){
     var list = document.querySelector("ol");
     list.innerHTML ="";
@@ -90,7 +90,7 @@ function renderlist(){
         list.appendChild(li);
     }
 }
-//clears the highscores
+
 function scoreclear(){
     var index = cleartarget;
     displayscore.splice(index, 1);
@@ -98,6 +98,7 @@ function scoreclear(){
     renderlist();
 
 }
+
 
 function correct(){
     document.getElementById("alert").innerHTML = "correct"
@@ -233,13 +234,12 @@ function Question4(){
         }
     });
 }
-//the submition page
+
 function endquiz(){
     document.querySelector(".b1").remove();
     document.querySelector(".b2").remove();
     document.querySelector(".b3").remove();
     document.querySelector(".b4").remove();
-    document.querySelector("#alert").remove();
     codeQ.textContent = "All done!";
     var showscore = document.createElement('h3');
     showscore.textContent = "Your final score is: " + Qscore;
@@ -263,7 +263,7 @@ function endquiz(){
         storescore();
     });    
 }
-//renders highscore page 
+
 function renderHscore(event){
     event.preventDefault();
     section.remove();
@@ -278,9 +278,10 @@ function renderHscore(event){
     renderlist();
     var div = document.createElement("div");
     var back = document.createElement("button");
-    back.textContent = "Go back"
+    back.textContent = "Go back";
+    back.setAttribute("id","back");
     var clear = document.createElement("button");
-    clear.textContent = "Clear" 
+    clear.textContent = "Clear";
     Newsection.appendChild(div);
     div.appendChild(back);
     div.appendChild(clear);
@@ -296,17 +297,16 @@ document.addEventListener("click",function(event){
         if(htarget == "Go back"){
             location.reload();
         }
-        if(htarget == "Clear"){
+        if(htarget == "Clear" && cleartarget != ""){
             scoreclear();
         }
     }
-    //these two codes ensure that only when the score is selected it can be cleared
     if(htarget != "Clear"){
         cleartarget = "";
     }
     if(event.target.tagName == "LI"){
         cleartarget = event.target.getAttribute("data-index")
-    }
+    }console.log(cleartarget);
 });
 
 init();

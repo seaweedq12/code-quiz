@@ -15,7 +15,7 @@ https://seaweedq12.github.io/code-quiz/
 the user can either start the quiz or view the highscore saved in the local file.
 2. when the view highscore is pressed a different **section** is rendered.
 ![hscore](./assets/images/hscore.png)
-highscores a updated when the user submits their score. Also the highscore button is disabled throught the quiz and enabled when finished  
+in this page there are two button **go back** and **clear**. go back refreshes the page with the quiz and the clear button clears scores that the user selects, if nothing is selected nothing will be cleared. highscores a updated when the user submits their score. Also the highscore button is disabled throught the quiz and enabled when finished.  
 
 4. when the user starts the quiz, the user is given few choices which the user can select as answer.
 ![quiz](./assets/images/quiz.png)
